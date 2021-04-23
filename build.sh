@@ -30,6 +30,13 @@ function sync(){
 	SYNC_START=$(date +"%s")
 	curl -v -F "chat_id=$TELEGRAM_CHAT" -F "parse_mode=html" -F text="Sync Started" https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage
 	cd "$KERNEL_DIR" && git clone -b "$branch" "$kernel_repo" --depth 1 kernel
+        cd kernel
+        git remote add cactus https://github.com/erfanoabdi/android_kernel_motorola_sdm632.git
+        git fetch cactus halium-9.0
+        git cherry-pick e3bb963196e55ca518df8ac31190c2cace086e70
+        git cherry-pick c18bd11902c5c7bb051a454aacec7012ab47da51
+        git cherry-pick 175245147c032244747e0a202f781ee0f8710edc
+        cd ..
 	cd "$KERNEL_DIR" && git clone "$tc_repo" "$tc_name"-"$tc_v"
 	chmod -R a+x "$KERNEL_DIR"/"$tc_name"-"$tc_v"
 	SYNC_END=$(date +"%s")
