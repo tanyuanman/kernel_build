@@ -31,6 +31,8 @@ function sync(){
 	curl -v -F "chat_id=$TELEGRAM_CHAT" -F "parse_mode=html" -F text="Sync Started" https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage
 	cd "$KERNEL_DIR" && git clone -b "$branch" "$kernel_repo" --depth 1 kernel
         cd kernel
+        wget https://raw.githubusercontent.com/erfanoabdi/halium-boot/halium-9.0/check-kernel-config
+        bash check-kernel-config arch/arm/configs/cactus_defconfig -w
         git remote add cactus https://github.com/erfanoabdi/android_kernel_motorola_sdm632.git
         git fetch cactus halium-9.0
         git cherry-pick e3bb963196e55ca518df8ac31190c2cace086e70
