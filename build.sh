@@ -8,10 +8,10 @@ export SUBARCH="arm"
 export PATH="/usr/lib/ccache:$PATH"
 export KBUILD_BUILD_USER="wulan17"
 export KBUILD_BUILD_HOST="Github"
-export branch="ten"
+export branch="lineage-16.0"
 export device="cactus"
 export LOCALVERSION="-wulan17"
-export kernel_repo="https://github.com/wulan17/android_kernel_xiaomi_mt6765.git"
+export kernel_repo="https://github.com/tanyuanman/android_kernel_xiaomi_mt6765-1.git"
 export tc_repo="https://github.com/wulan17/linaro_arm-linux-gnueabihf-7.5.git"
 export tc_name="arm-linux-gnueabihf"
 export tc_v="7.5"
@@ -30,15 +30,6 @@ function sync(){
 	SYNC_START=$(date +"%s")
 	curl -v -F "chat_id=$TELEGRAM_CHAT" -F "parse_mode=html" -F text="Sync Started" https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage
 	cd "$KERNEL_DIR" && git clone -b "$branch" "$kernel_repo" --depth 1 kernel
-        cd kernel
-        wget https://raw.githubusercontent.com/erfanoabdi/halium-boot/halium-9.0/check-kernel-config
-        bash check-kernel-config arch/arm/configs/cactus_defconfig -w
-        git remote add cactus https://github.com/erfanoabdi/android_kernel_motorola_sdm632.git
-        git fetch cactus halium-9.0
-        git cherry-pick e3bb963196e55ca518df8ac31190c2cace086e70
-        git cherry-pick c18bd11902c5c7bb051a454aacec7012ab47da51
-        git cherry-pick 175245147c032244747e0a202f781ee0f8710edc
-        cd ..
 	cd "$KERNEL_DIR" && git clone "$tc_repo" "$tc_name"-"$tc_v"
 	chmod -R a+x "$KERNEL_DIR"/"$tc_name"-"$tc_v"
 	SYNC_END=$(date +"%s")
